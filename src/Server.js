@@ -56,7 +56,7 @@ app.post("/api/articles", (req, res) => {
   });
 });
 
-app.post("/api/articles", (req, res) => {
+app.post("/api/users", (req, res) => {
   fs.readFile(USERS_FILE, (err, data) => {
     const users = JSON.parse(data);
     const newUser = {
