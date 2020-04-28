@@ -3,9 +3,12 @@ import {
   LOGIN_REQUEST_FAILURE,
   LOGIN_REQUEST_SUCCESS,
   LOGOUT_REQUEST,
+  SIGNUP_REQUEST,
+  SIGNUP_REQUEST_FAILURE,
+  SIGNUP_REQUEST_SUCCESS,
 } from "./actions";
 
-function login(
+export function login(
   state = { loginStatus: "", loggedInUser: {}, error: "" },
   action
 ) {
@@ -42,4 +45,28 @@ function login(
       return state;
   }
 }
-export default login;
+
+export function signup(state = { signupStatus: "", error: "" }, action) {
+  switch (action.type) {
+    case SIGNUP_REQUEST: {
+      return {
+        signupStatus: "IN_PROGRESS",
+        error: "",
+      };
+    }
+    case SIGNUP_REQUEST_SUCCESS: {
+      return {
+        signupStatus: "SUCCEEDED",
+        error: "",
+      };
+    }
+    case SIGNUP_REQUEST_FAILURE: {
+      return {
+        signupStatus: "FAILED",
+        error: action.error,
+      };
+    }
+    default:
+      return state;
+  }
+}

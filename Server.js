@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
+const uuid = require("uuid");
 
 const app = express();
 
@@ -48,7 +49,7 @@ app.post("/api/articles", (req, res) => {
       userId: req.body.userId,
     };
     articles.push(newArticle);
-    fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 4), () => {
+    fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 2), () => {
       res.setHeader("Cache-Control", "no-cache");
       res.json(newArticle);
     });
@@ -59,16 +60,23 @@ app.post("/api/users", (req, res) => {
   fs.readFile(USERS_FILE, (err, data) => {
     const users = JSON.parse(data);
     const newUser = {
-      name: req.body.name,
-      id: req.body.id,
+      username: req.body.username,
+      id: uuid.v4(),
       registeredSince: Date.now(),
+      password: req.body.password,
+      email: req.body.email,
     };
-    console.log(newUser);
-    users.push(newUser);
-    fs.writeFile(USERS_FILE, JSON.stringify(users, null, 4), () => {
-      res.setHeader("Cache-Control", "no-cache");
-      res.json(newUser);
-    });
+    if (users.filter((user) => user.username == newUser.username).length) {
+      res.statusMessage = `Username ${newUser.username} exists before`;
+      res.status(400);
+      res.send();
+    } else {
+      users.push(newUser);
+      fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2), () => {
+        res.setHeader("Cache-Control", "no-cache");
+        res.json(newUser);
+      });
+    }
   });
 });
 
@@ -79,10 +87,10 @@ app.put("/api/articles", (req, res) => {
       if (article.id === req.body.id) {
         article.title = req.body.title;
         article.content = req.body.content;
-        article.timeUpdated = Date.now()
+        article.timeUpdated = Date.now();
       }
     });
-    fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 4), () => {
+    fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 2), () => {
       res.json({});
     });
   });
@@ -98,7 +106,7 @@ app.delete("/api/articles", (req, res) => {
         return memo.concat(article);
       }
     }, []);
-    fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 4), () => {
+    fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 2), () => {
       res.json({});
     });
   });

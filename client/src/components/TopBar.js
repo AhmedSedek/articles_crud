@@ -2,7 +2,6 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 
-
 class TopBar extends React.Component {
   render() {
     return (
@@ -18,11 +17,17 @@ class TopBar extends React.Component {
             <Link className='ui item' to='/logout'>
               Logout
             </Link>
-          ) : (
+          ) : null}
+          {!this.props.loggedIn && this.props.location.pathname !== "/login" ? (
             <Link className='ui item' to='/login'>
               Login
             </Link>
-          )}
+          ) : null}
+          {!this.props.loggedIn && this.props.location.pathname !== "/signup" ? (
+            <Link className='ui item' to='/signup'>
+              Signup
+            </Link>
+          ) : null}
         </div>
       </div>
     );
