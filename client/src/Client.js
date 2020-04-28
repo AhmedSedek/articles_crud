@@ -40,7 +40,7 @@ class Client {
       .then(success);
   }
 
-  getUser(data, success) {
+  getUserById(data, success) {
     return fetch("/api/users", {
       headers: {
         Accept: "application/json",
@@ -61,6 +61,34 @@ class Client {
       .then(checkStatus)
       .then(parseJSON)
       .then(success);
+  }
+
+  verifyUser(data) {
+    return fetch("/api/users", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then(checkStatus)
+      .then(parseJSON)
+      .then((res) => {
+        const user = res.find(
+          (user) =>
+            user.username === data.username && user.password === data.password
+        );
+        if (!user) {
+          const error = new Error("Invalid Username or Password");
+          error.status = 400;
+          error.response = res;
+          throw error;
+        } else {
+          return {
+            username: user.username,
+            email: user.email,
+            registeredSince: user.registeredSince,
+          };
+        }
+      });
   }
 
   getUserArticles(data, success) {

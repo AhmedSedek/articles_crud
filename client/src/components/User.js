@@ -19,8 +19,7 @@ class User extends React.Component {
 
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    console.log(this.props);
-    this.client.getUser({ userId }, (res) =>
+    this.client.getUserById({ userId }, (res) =>
       this.setState({
         id: res.id,
         registeredSince: res.registeredSince,
@@ -28,7 +27,6 @@ class User extends React.Component {
       })
     );
     this.client.getUserArticles({ userId }, (res) => {
-      console.log(res);
       this.setState({ articles: res });
     });
   }

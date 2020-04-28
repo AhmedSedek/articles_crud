@@ -21,7 +21,6 @@ class Article extends React.Component {
 
   componentDidMount() {
     const articleId = this.props.match.params.articleId;
-    console.log(this.props);
     this.client.getArticle({ articleId }, (res) =>
       this.setState({
         title: res.title,
