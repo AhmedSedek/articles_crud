@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import Field from "./Field";
 import { Redirect } from "react-router-dom";
-import store from "../redux/store";
 
 class Login extends React.Component {
   static propTypes = {

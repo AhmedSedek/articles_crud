@@ -47,7 +47,6 @@ app.post("/api/articles", (req, res) => {
       content: req.body.content,
       userId: req.body.userId,
     };
-    console.log(newArticle);
     articles.push(newArticle);
     fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 4), () => {
       res.setHeader("Cache-Control", "no-cache");

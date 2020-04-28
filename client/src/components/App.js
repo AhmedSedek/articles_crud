@@ -11,7 +11,8 @@ import Logout from "./Logout";
 import SignUp from "./SignUp";
 import Article from "./Article";
 import store from "../redux/store";
-import { attemptLogin } from "../redux/actions";
+import { attemptLogin, logoutRequest } from "../redux/actions";
+import TopBar from "./TopBar";
 
 const NoMatch = ({ location }) => (
   <div className='ui inverted red raised very padded text container segment'>
@@ -40,6 +41,22 @@ const ReduxLogin = connect(
   mapDispatchToLoginProps
 )(Login);
 
+function mapDispatchToLogoutProps(dispatch) {
+  return {
+    onLogout: () => dispatch(logoutRequest()),
+  };
+}
+
+const ReduxLogout = connect((state) => ({}), mapDispatchToLogoutProps)(Logout);
+
+function mapStateToTopBarProps(state) {
+  return {
+    loggedIn: Object.keys(state.login.loggedInUser).length !== 0,
+  };
+}
+
+const ReduxTopBar = connect(mapStateToTopBarProps, (dispatch) => ({}))(TopBar);
+
 class App extends React.Component {
   state = {
     users: [],
@@ -55,16 +72,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <Switch>
-        <Route path='/articles/:articleId' component={Article} />
-        <Route path='/articles' component={ArticlesContainer} />
-        <Route path='/users/:userId' component={User} />
-        <Route path='/login' component={ReduxLogin} />
-        <Route path='/logout' component={Logout} />
-        <Route path='/signup' component={SignUp} />
-        <Route path='/' render={() => <Redirect to='/articles' />} />
-        <Route component={NoMatch} />
-      </Switch>
+      <div>
+        <ReduxTopBar />
+        <Switch>
+          <Route path='/articles/:articleId' component={Article} />
+          <Route path='/articles' component={ArticlesContainer} />
+          <Route path='/users/:userId' component={User} />
+          <Route path='/login' component={ReduxLogin} />
+          <Route path='/logout' component={ReduxLogout} />
+          <Route path='/signup' component={SignUp} />
+          <Route path='/' render={() => <Redirect to='/articles' />} />
+          <Route component={NoMatch} />
+        </Switch>
+      </div>
     );
   }
 }

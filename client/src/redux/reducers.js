@@ -1,7 +1,8 @@
 import {
   LOGIN_REQUEST,
-  LOGIN_REQUEST_SUCCESS,
   LOGIN_REQUEST_FAILURE,
+  LOGIN_REQUEST_SUCCESS,
+  LOGOUT_REQUEST,
 } from "./actions";
 
 function login(
@@ -30,9 +31,15 @@ function login(
         error: action.error,
       };
     }
+    case LOGOUT_REQUEST: {
+      return {
+        loginStatus: "",
+        loggedInUser: {},
+        error: "",
+      };
+    }
     default:
       return state;
   }
 }
-
 export default login;

@@ -15,6 +15,11 @@ function loginSuccess(user) {
   return { type: LOGIN_REQUEST_SUCCESS, user };
 }
 
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export function logoutRequest() {
+  return { type: LOGOUT_REQUEST };
+}
+
 export function attemptLogin(user) {
   return function (dispatch) {
     dispatch(loginRequest);

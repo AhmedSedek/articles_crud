@@ -1,15 +1,11 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-import store from "../redux/store";
-
 class Logout extends React.Component {
   componentDidMount() {
-    // reset the logged in user.
-    store.dispatch({
-      type: "LOGOUT",
-    });
+    this.props.onLogout();
   }
+
   render() {
     return <Redirect to='/login' />;
   }
