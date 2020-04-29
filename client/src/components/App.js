@@ -10,10 +10,17 @@ import Logout from "./Logout";
 import Signup from "./Signup";
 import Article from "./Article";
 import store from "../redux/store";
-import { attemptLogin, attemptSignup, fetchArticle, logoutRequest } from "../redux/actions";
+import {
+  attemptLogin,
+  attemptSignup,
+  deleteArticle,
+  fetchArticle,
+  logoutRequest,
+  updateArticle,
+} from "../redux/actions";
 import TopBar from "./TopBar";
 
-const NoMatch = ({ location }) => (
+export const NoMatch = ({ location }) => (
   <div className='ui inverted red raised very padded text container segment'>
     <strong>Error!</strong> No route found matching:
     <div className='ui inverted black segment'>
@@ -84,6 +91,8 @@ function mapStateToArticleProps(state) {
 function mapDispatchToArticleProps(dispatch) {
   return {
     fetchArticle: (articleId) => dispatch(fetchArticle(articleId)),
+    updateArticle: (article) => dispatch(updateArticle(article)),
+    deleteArticle: (articleId) => dispatch(deleteArticle(articleId)),
   };
 }
 

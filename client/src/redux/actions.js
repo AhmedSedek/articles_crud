@@ -48,6 +48,32 @@ function fetchArticleSuccess(article) {
   return { type: FETCH_ARTICLE_REQUEST_SUCCESS, article };
 }
 
+export const UPDATE_ARTICLE_REQUEST = "UPDATE_ARTICLE_REQUEST";
+function updateArticleRequest() {
+  return { type: UPDATE_ARTICLE_REQUEST };
+}
+export const UPDATE_ARTICLE_REQUEST_FAILURE = "UPDATE_ARTICLE_REQUEST_FAILURE";
+function updateArticleFailure(error) {
+  return { type: UPDATE_ARTICLE_REQUEST_FAILURE, error };
+}
+export const UPDATE_ARTICLE_REQUEST_SUCCESS = "UPDATE_ARTICLE_REQUEST_SUCCESS";
+function updateArticleSuccess(article) {
+  return { type: UPDATE_ARTICLE_REQUEST_SUCCESS, article };
+}
+
+export const DELETE_ARTICLE_REQUEST = "DELETE_ARTICLE_REQUEST";
+function deleteArticleRequest() {
+  return { type: DELETE_ARTICLE_REQUEST };
+}
+export const DELETE_ARTICLE_REQUEST_FAILURE = "DELETE_ARTICLE_REQUEST_FAILURE";
+function deleteArticleFailure(error) {
+  return { type: DELETE_ARTICLE_REQUEST_FAILURE, error };
+}
+export const DELETE_ARTICLE_REQUEST_SUCCESS = "DELETE_ARTICLE_REQUEST_SUCCESS";
+function deleteArticleSuccess() {
+  return { type: DELETE_ARTICLE_REQUEST_SUCCESS};
+}
+
 export function attemptLogin(user) {
   return function (dispatch) {
     dispatch(loginRequest);
@@ -78,5 +104,28 @@ export function fetchArticle(articleId) {
       .getArticle({ articleId })
       .then((res) => dispatch(fetchArticleSuccess(res)))
       .catch((err) => dispatch(fetchArticleFailure(err)));
+  };
+}
+
+export function updateArticle(article) {
+  return function (dispatch) {
+    dispatch(updateArticleRequest());
+    const client = new Client();
+    client
+      .updateArticle(article)
+      .then((res) => dispatch(updateArticleSuccess(article)))
+      .catch((err) => dispatch(updateArticleFailure(err)));
+  };
+}
+
+
+export function deleteArticle(articleId) {
+  return function (dispatch) {
+    dispatch(deleteArticleRequest());
+    const client = new Client();
+    client
+        .deleteArticle({id: articleId})
+      .then((res) => dispatch(deleteArticleSuccess()))
+      .catch((err) => dispatch(deleteArticleFailure(err)));
   };
 }

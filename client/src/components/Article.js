@@ -1,12 +1,14 @@
 import React from "react";
 import Client from "../Client";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import ArticleForm from "./ArticleForm";
 
 class Article extends React.Component {
   state = {
     article: {},
     showEditForm: false,
+    shouldRedirect: false,
   };
 
   constructor(props) {
@@ -19,7 +21,6 @@ class Article extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('I"m receiving new shit');
     this.setState({
       article: props.article,
       showEditForm: false,
@@ -27,49 +28,91 @@ class Article extends React.Component {
   }
 
   openEditForm = () => {
-    console.log("Editing form?");
     this.setState({
       showEditForm: true,
     });
   };
 
-  handleDeleteClick = () => {};
+  handleFormSubmit = (newArticle) => {
+    this.setState(
+      (prevState) => ({
+        article: {
+          ...prevState.article,
+          title: newArticle.title,
+          content: newArticle.content,
+          timeUpdated: Date.now(),
+        },
+        showEditForm: false,
+      }),
+      () => this.props.updateArticle(this.state.article)
+    );
+  };
+
+  handleDeleteClick = () => {
+    this.props.deleteArticle(this.state.article.id);
+    // this.setState({ shouldRedirect: true });
+  };
 
   render() {
-    console.log(this.props);
-    return (
-      <div className='ui main two column centered container grid'>
-        <div className='column'>
-          <div className='header'>
-            <h1>{this.state.article.title}</h1>
-          </div>
-          <div className='meta'>
-            Written by{" "}
-            <Link to={`/users/${this.state.article.userId}`}>
-              {this.state.article.userId}{" "}
-            </Link>
-            @ {this.state.article.timeCreated}
-            <br />
-            Last Modified @ {this.state.article.timeUpdated}
-            <br />
-          </div>
-          <div className='text'>
-            <p>{this.state.article.content}</p>
-          </div>
-        </div>
-        {this.props.loggedInUserId === this.state.article.userId ? (
+    
+    if (this.state.article.notFound) {
+      return <Redirect to='/' />;
+    }
+    if (
+      this.state.article.articleStatus !== "SUCCEEDED" &&
+      this.state.article.articleStatus !== "FAILED"
+    ) {
+      return <div className='ui active centered inline loader' />;
+    }
+    if (this.state.showEditForm) {
+      return (
+        <ArticleForm
+          title={this.state.article.title}
+          content={this.state.article.content}
+          onFormSubmit={this.handleFormSubmit}
+          onFormClose={() => this.setState({ showEditForm: false })}
+        />
+      );
+    } else {
+      return (
+        <div className='ui main two column centered container grid'>
           <div className='column'>
-            <input type='button' onClick={this.openEditForm} value='Edit' />
-            <input
-              type='button'
-              onClick={this.handleDeleteClick}
-              value='Delete'
-            />
+            <div className='header'>
+              <h1>{this.state.article.title}</h1>
+            </div>
+            <div className='meta'>
+              Written by{" "}
+              <Link to={`/users/${this.state.article.userId}`}>
+                {this.state.article.userId}{" "}
+              </Link>
+              @ {this.state.article.timeCreated}
+              <br />
+              Last Modified @ {this.state.article.timeUpdated}
+              <br />
+            </div>
+            <div className='text'>
+              <p>{this.state.article.content}</p>
+            </div>
           </div>
-        ) : null}
-      </div>
-    );
+          {this.props.loggedInUserId === this.state.article.userId ? (
+            <div className='column'>
+              <button
+                onClick={this.openEditForm}
+                className='ui basic blue button'
+              >
+                Edit
+              </button>
+              <button
+                className='ui basic red button'
+                onClick={this.handleDeleteClick}
+              >
+                Delete
+              </button>
+            </div>
+          ) : null}
+        </div>
+      );
+    }
   }
 }
-
 export default Article;

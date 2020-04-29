@@ -138,6 +138,7 @@ class Client {
   }
 
   deleteArticle(data) {
+    console.log(JSON.stringify(data));
     return fetch("/api/articles", {
       method: "delete",
       body: JSON.stringify(data),

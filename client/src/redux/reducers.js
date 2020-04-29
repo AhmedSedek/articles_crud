@@ -1,4 +1,7 @@
 import {
+  DELETE_ARTICLE_REQUEST,
+  DELETE_ARTICLE_REQUEST_FAILURE,
+  DELETE_ARTICLE_REQUEST_SUCCESS,
   FETCH_ARTICLE_REQUEST,
   FETCH_ARTICLE_REQUEST_FAILURE,
   FETCH_ARTICLE_REQUEST_SUCCESS,
@@ -9,6 +12,9 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_REQUEST_FAILURE,
   SIGNUP_REQUEST_SUCCESS,
+  UPDATE_ARTICLE_REQUEST,
+  UPDATE_ARTICLE_REQUEST_FAILURE,
+  UPDATE_ARTICLE_REQUEST_SUCCESS,
 } from "./actions";
 
 export function login(
@@ -84,6 +90,7 @@ export function article(
     userId: "",
     articleStatus: "",
     error: "",
+    notFound: false,
   },
   action
 ) {
@@ -104,9 +111,65 @@ export function article(
         userId: action.article.userId,
         articleStatus: "SUCCEEDED",
         error: "",
+        notFound: false
       };
     }
     case FETCH_ARTICLE_REQUEST_FAILURE: {
+      return {
+        ...state,
+        articleStatus: "FAILED",
+        error: action.error,
+        notFound: true
+      };
+    }
+    case UPDATE_ARTICLE_REQUEST: {
+      return {
+        ...state,
+        articleStatus: "UPDATING",
+      };
+    }
+    case UPDATE_ARTICLE_REQUEST_SUCCESS: {
+      return {
+        title: action.article.title,
+        timeCreated: action.article.timeCreated,
+        timeUpdated: action.article.timeUpdated,
+        id: action.article.id,
+        content: action.article.content,
+        userId: action.article.userId,
+        articleStatus: "SUCCEEDED",
+        error: "",
+      };
+    }
+    case UPDATE_ARTICLE_REQUEST_FAILURE: {
+      return {
+        ...state,
+        articleStatus: "FAILED",
+        error: action.error,
+      };
+    }
+    case DELETE_ARTICLE_REQUEST: {
+      return {
+        ...state,
+        articleStatus: "DELETING",
+        error: "",
+        notFound: false,
+      };
+    }
+    case DELETE_ARTICLE_REQUEST_SUCCESS: {
+      console.log("Action", action);
+      return {
+        title: "",
+        timeCreated: null,
+        timeUpdated: null,
+        id: "",
+        content: "",
+        userId: "",
+        articleStatus: "",
+        error: "",
+        notFound: true
+      };
+    }
+    case DELETE_ARTICLE_REQUEST_FAILURE: {
       return {
         ...state,
         articleStatus: "FAILED",
