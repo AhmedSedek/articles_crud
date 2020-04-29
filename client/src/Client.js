@@ -17,7 +17,7 @@ function parseJSON(response) {
 }
 
 class Client {
-  getArticle(data, success) {
+  getArticle(data) {
     return fetch("/api/articles", {
       headers: {
         Accept: "application/json",
@@ -25,8 +25,7 @@ class Client {
     })
       .then(checkStatus)
       .then(parseJSON)
-      .then((res) => res.find((article) => article.id === data.articleId))
-      .then(success);
+      .then((res) => res.find((article) => article.id === data.articleId));
   }
   getArticles(success) {
     return fetch("/api/articles", {
@@ -82,6 +81,7 @@ class Client {
           throw error;
         } else {
           return {
+            id: user.id,
             username: user.username,
             email: user.email,
             registeredSince: user.registeredSince,

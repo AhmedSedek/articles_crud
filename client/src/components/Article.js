@@ -5,51 +5,68 @@ import { Link } from "react-router-dom";
 
 class Article extends React.Component {
   state = {
-    title: "",
-    timeCreated: null,
-    timeUpdated: null,
-    id: "",
-    content: "",
-    userId: "",
+    article: {},
+    showEditForm: false,
   };
 
   constructor(props) {
     super(props);
-
     this.client = new Client();
   }
 
   componentDidMount() {
-    const articleId = this.props.match.params.articleId;
-    this.client.getArticle({ articleId }, (res) =>
-      this.setState({
-        title: res.title,
-        timeCreated: res.timeCreated,
-        timeUpdated: res.timeUpdated,
-        id: res.id,
-        content: res.content,
-        userId: res.userId,
-      })
-    );
+    this.props.fetchArticle(this.props.match.params.articleId);
   }
 
+  componentWillReceiveProps(props) {
+    console.log('I"m receiving new shit');
+    this.setState({
+      article: props.article,
+      showEditForm: false,
+    });
+  }
+
+  openEditForm = () => {
+    console.log("Editing form?");
+    this.setState({
+      showEditForm: true,
+    });
+  };
+
+  handleDeleteClick = () => {};
+
   render() {
+    console.log(this.props);
     return (
-      <div className='item content'>
-        <div className='header'>
-          <h1>{this.state.title}</h1>
+      <div className='ui main two column centered container grid'>
+        <div className='column'>
+          <div className='header'>
+            <h1>{this.state.article.title}</h1>
+          </div>
+          <div className='meta'>
+            Written by{" "}
+            <Link to={`/users/${this.state.article.userId}`}>
+              {this.state.article.userId}{" "}
+            </Link>
+            @ {this.state.article.timeCreated}
+            <br />
+            Last Modified @ {this.state.article.timeUpdated}
+            <br />
+          </div>
+          <div className='text'>
+            <p>{this.state.article.content}</p>
+          </div>
         </div>
-        <div className='meta'>
-          Written by{" "}
-          <Link to={`/users/${this.state.userId}`}>{this.state.userId} </Link>@{" "}
-          {this.state.timeCreated}
-          <br />
-          Last Modified @ {this.state.timeUpdated}
-          <br />
-        </div>
-        <div className='text'>
-          <p>{this.state.content}</p>
-        </div>
+        {this.props.loggedInUserId === this.state.article.userId ? (
+          <div className='column'>
+            <input type='button' onClick={this.openEditForm} value='Edit' />
+            <input
+              type='button'
+              onClick={this.handleDeleteClick}
+              value='Delete'
+            />
+          </div>
+        ) : null}
       </div>
     );
   }

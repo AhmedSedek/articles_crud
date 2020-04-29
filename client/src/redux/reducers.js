@@ -1,4 +1,7 @@
 import {
+  FETCH_ARTICLE_REQUEST,
+  FETCH_ARTICLE_REQUEST_FAILURE,
+  FETCH_ARTICLE_REQUEST_SUCCESS,
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAILURE,
   LOGIN_REQUEST_SUCCESS,
@@ -63,6 +66,50 @@ export function signup(state = { signupStatus: "", error: "" }, action) {
     case SIGNUP_REQUEST_FAILURE: {
       return {
         signupStatus: "FAILED",
+        error: action.error,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+export function article(
+  state = {
+    title: "",
+    timeCreated: null,
+    timeUpdated: null,
+    id: "",
+    content: "",
+    userId: "",
+    articleStatus: "",
+    error: "",
+  },
+  action
+) {
+  switch (action.type) {
+    case FETCH_ARTICLE_REQUEST: {
+      return {
+        ...state,
+        articleStatus: "FETCHING",
+      };
+    }
+    case FETCH_ARTICLE_REQUEST_SUCCESS: {
+      return {
+        title: action.article.title,
+        timeCreated: action.article.timeCreated,
+        timeUpdated: action.article.timeUpdated,
+        id: action.article.id,
+        content: action.article.content,
+        userId: action.article.userId,
+        articleStatus: "SUCCEEDED",
+        error: "",
+      };
+    }
+    case FETCH_ARTICLE_REQUEST_FAILURE: {
+      return {
+        ...state,
+        articleStatus: "FAILED",
         error: action.error,
       };
     }

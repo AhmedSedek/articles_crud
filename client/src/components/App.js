@@ -10,7 +10,7 @@ import Logout from "./Logout";
 import Signup from "./Signup";
 import Article from "./Article";
 import store from "../redux/store";
-import { attemptLogin, attemptSignup, logoutRequest } from "../redux/actions";
+import { attemptLogin, attemptSignup, fetchArticle, logoutRequest } from "../redux/actions";
 import TopBar from "./TopBar";
 
 const NoMatch = ({ location }) => (
@@ -74,19 +74,32 @@ const ReduxSignup = connect(
   mapDispatchToSignupProps
 )(Signup);
 
-class App extends React.Component {
-  state = {
-    users: [],
-    loggedInUser: [],
+function mapStateToArticleProps(state) {
+  return {
+    article: state.article,
+    loggedInUserId: state.login.loggedInUser.id,
   };
+}
 
+function mapDispatchToArticleProps(dispatch) {
+  return {
+    fetchArticle: (articleId) => dispatch(fetchArticle(articleId)),
+  };
+}
+
+const ReduxArticle = connect(
+  mapStateToArticleProps,
+  mapDispatchToArticleProps
+)(Article);
+
+class App extends React.Component {
   render() {
     return (
       <div>
         <Route path='/' component={ReduxTopBar} />
         {/* <ReduxTopBar /> */}
         <Switch>
-          <Route path='/articles/:articleId' component={Article} />
+          <Route path='/articles/:articleId' component={ReduxArticle} />
           <Route path='/articles' component={ArticlesContainer} />
           <Route path='/users/:userId' component={User} />
           <Route path='/login' component={ReduxLogin} />

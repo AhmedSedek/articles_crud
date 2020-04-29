@@ -35,6 +35,19 @@ function signupSuccess(user) {
   return { type: SIGNUP_REQUEST_SUCCESS, user };
 }
 
+export const FETCH_ARTICLE_REQUEST = "FETCH_ARTICLE_REQUEST";
+function fetchArticleRequest() {
+  return { type: FETCH_ARTICLE_REQUEST };
+}
+export const FETCH_ARTICLE_REQUEST_FAILURE = "FETCH_ARTICLE_REQUEST_FAILURE";
+function fetchArticleFailure(error) {
+  return { type: FETCH_ARTICLE_REQUEST_FAILURE, error };
+}
+export const FETCH_ARTICLE_REQUEST_SUCCESS = "FETCH_ARTICLE_REQUEST_SUCCESS";
+function fetchArticleSuccess(article) {
+  return { type: FETCH_ARTICLE_REQUEST_SUCCESS, article };
+}
+
 export function attemptLogin(user) {
   return function (dispatch) {
     dispatch(loginRequest);
@@ -54,5 +67,16 @@ export function attemptSignup(user) {
       .createUser(user)
       .then((res) => dispatch(signupSuccess(res)))
       .catch((err) => dispatch(signupFailure(err)));
+  };
+}
+
+export function fetchArticle(articleId) {
+  return function (dispatch) {
+    dispatch(fetchArticleRequest(articleId));
+    const client = new Client();
+    client
+      .getArticle({ articleId })
+      .then((res) => dispatch(fetchArticleSuccess(res)))
+      .catch((err) => dispatch(fetchArticleFailure(err)));
   };
 }
