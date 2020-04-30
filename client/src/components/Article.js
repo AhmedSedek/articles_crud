@@ -50,11 +50,9 @@ class Article extends React.Component {
 
   handleDeleteClick = () => {
     this.props.deleteArticle(this.state.article.id);
-    // this.setState({ shouldRedirect: true });
   };
 
   render() {
-    
     if (this.state.article.notFound) {
       return <Redirect to='/' />;
     }

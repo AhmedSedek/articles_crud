@@ -71,7 +71,7 @@ function deleteArticleFailure(error) {
 }
 export const DELETE_ARTICLE_REQUEST_SUCCESS = "DELETE_ARTICLE_REQUEST_SUCCESS";
 function deleteArticleSuccess() {
-  return { type: DELETE_ARTICLE_REQUEST_SUCCESS};
+  return { type: DELETE_ARTICLE_REQUEST_SUCCESS };
 }
 
 export function attemptLogin(user) {
@@ -118,13 +118,12 @@ export function updateArticle(article) {
   };
 }
 
-
 export function deleteArticle(articleId) {
   return function (dispatch) {
     dispatch(deleteArticleRequest());
     const client = new Client();
     client
-        .deleteArticle({id: articleId})
+      .deleteArticle({ id: articleId })
       .then((res) => dispatch(deleteArticleSuccess()))
       .catch((err) => dispatch(deleteArticleFailure(err)));
   };

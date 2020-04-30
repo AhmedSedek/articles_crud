@@ -98,7 +98,7 @@ class Client {
     })
       .then(checkStatus)
       .then(parseJSON)
-      .then((res) => res.filter((article) => article.id === data.userId))
+      .then((res) => res.filter((article) => article.userId === data.userId))
       .then(success);
   }
 
@@ -110,7 +110,9 @@ class Client {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-    }).then(checkStatus);
+    })
+      .then(checkStatus)
+      .then(parseJSON);
   }
 
   createUser(data) {
@@ -138,7 +140,6 @@ class Client {
   }
 
   deleteArticle(data) {
-    console.log(JSON.stringify(data));
     return fetch("/api/articles", {
       method: "delete",
       body: JSON.stringify(data),

@@ -101,6 +101,14 @@ const ReduxArticle = connect(
   mapDispatchToArticleProps
 )(Article);
 
+function mapStateToUserProps(state) {
+  return {
+    loggedInUserId: state.login.loggedInUser.id,
+  };
+}
+
+const ReduxUser = connect(mapStateToUserProps, (dispatch) => ({}))(User);
+
 class App extends React.Component {
   render() {
     return (
@@ -110,7 +118,7 @@ class App extends React.Component {
         <Switch>
           <Route path='/articles/:articleId' component={ReduxArticle} />
           <Route path='/articles' component={ArticlesContainer} />
-          <Route path='/users/:userId' component={User} />
+          <Route path='/users/:userId' component={ReduxUser} />
           <Route path='/login' component={ReduxLogin} />
           <Route path='/logout' component={ReduxLogout} />
           <Route path='/signup' component={ReduxSignup} />

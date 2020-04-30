@@ -111,7 +111,7 @@ export function article(
         userId: action.article.userId,
         articleStatus: "SUCCEEDED",
         error: "",
-        notFound: false
+        notFound: false,
       };
     }
     case FETCH_ARTICLE_REQUEST_FAILURE: {
@@ -119,7 +119,7 @@ export function article(
         ...state,
         articleStatus: "FAILED",
         error: action.error,
-        notFound: true
+        notFound: true,
       };
     }
     case UPDATE_ARTICLE_REQUEST: {
@@ -156,7 +156,6 @@ export function article(
       };
     }
     case DELETE_ARTICLE_REQUEST_SUCCESS: {
-      console.log("Action", action);
       return {
         title: "",
         timeCreated: null,
@@ -166,7 +165,7 @@ export function article(
         userId: "",
         articleStatus: "",
         error: "",
-        notFound: true
+        notFound: true,
       };
     }
     case DELETE_ARTICLE_REQUEST_FAILURE: {

@@ -2,8 +2,8 @@ import React from "react";
 
 class ArticleForm extends React.Component {
   state = {
-    title: "",
-    content: "",
+    title: this.props.title || "",
+    content: this.props.content || "",
   };
 
   handleTitleChange = (e) => {
@@ -17,10 +17,6 @@ class ArticleForm extends React.Component {
   handleSubmit = () => {
     this.props.onFormSubmit({ ...this.state });
   };
-
-  componentDidMount() {
-    this.setState({ title: this.props.title, content: this.props.content });
-  }
 
   render() {
     return (

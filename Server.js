@@ -42,7 +42,7 @@ app.post("/api/articles", (req, res) => {
     const articles = JSON.parse(data);
     const newArticle = {
       title: req.body.title,
-      id: req.body.id,
+      id: uuid.v4(),
       timeCreated: Date.now(),
       timeUpdated: Date.now(),
       content: req.body.content,

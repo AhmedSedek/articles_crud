@@ -8,9 +8,13 @@ class TopBar extends React.Component {
       <div className='ui huge top attached fluid secondary menu'>
         <div className='item' />
         <div className='item'>
-          <h1 className='ui green header' style={{ marginTop: "10px" }}>
+          <Link
+            className='ui green header'
+            style={{ marginTop: "10px" }}
+            to='/'
+          >
             Articles CRUD
-          </h1>
+          </Link>
         </div>
         <div className='right menu'>
           {this.props.loggedIn ? (
@@ -23,7 +27,8 @@ class TopBar extends React.Component {
               Login
             </Link>
           ) : null}
-          {!this.props.loggedIn && this.props.location.pathname !== "/signup" ? (
+          {!this.props.loggedIn &&
+          this.props.location.pathname !== "/signup" ? (
             <Link className='ui item' to='/signup'>
               Signup
             </Link>
