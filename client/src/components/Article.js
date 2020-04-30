@@ -1,4 +1,5 @@
 import React from "react";
+import * as moment from "moment";
 import Client from "../Client";
 
 import { Link, Redirect } from "react-router-dom";
@@ -81,12 +82,15 @@ class Article extends React.Component {
             <div className='meta'>
               Written by{" "}
               <Link to={`/users/${this.state.article.userId}`}>
-                {this.state.article.userId}{" "}
+                {this.state.article.username}{" "}
               </Link>
-              @ {this.state.article.timeCreated}
-              <br />
-              Last Modified @ {this.state.article.timeUpdated}
-              <br />
+              <div className='meta'>
+                Created {moment(this.state.article.timeCreated).fromNow()}
+                <br />
+                Modified {moment(this.state.article.timeUpdated).fromNow()}
+                <br />
+                <br />
+              </div>
             </div>
             <div className='text'>
               <p>{this.state.article.content}</p>

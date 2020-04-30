@@ -35,7 +35,7 @@ class ArticlesContainer extends Component {
       return (
         <div className='ui main text container unstackable items'>
           {this.state.articles.map((article, idx) => (
-            <ArticleSummary article={article} key={idx} />
+            <ArticleSummary article={article} key={idx} showUser={true}/>
           ))}
         </div>
       );

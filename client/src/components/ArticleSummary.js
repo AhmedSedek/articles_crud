@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import * as moment from "moment";
 
 class ArticleSummary extends React.Component {
   render() {
@@ -16,10 +17,15 @@ class ArticleSummary extends React.Component {
             <p>{this.props.article.content.substring(0, 300)}</p>
           </div>
           <div className='meta'>
-            <Link to={`/users/${this.props.article.userId}`}>
-              Author: {this.props.article.userId}
-            </Link>
-            Created @ {this.props.article.timeCreated}
+            {this.props.showUser ? (
+              <div>
+                <Link to={`/users/${this.props.article.userId}`}>
+                  Author: {this.props.article.username}
+                </Link>
+                <br />
+              </div>
+            ) : null}
+            Created {moment(this.props.article.timeCreated).fromNow()}
           </div>
         </div>
       </div>

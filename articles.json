@@ -5,7 +5,8 @@
     "timeUpdated": 1588168481086,
     "id": "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7",
     "content": "This is so2me bla bla content",
-    "userId": "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7"
+    "userId": "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7",
+    "username": "TestUser1"
   },
   {
     "title": "Clear paper jam",
@@ -13,6 +14,7 @@
     "timeUpdated": 1253155,
     "id": "a73c1d19-f32d-4aff-b470-cea4e792406a",
     "content": "This is another useless Content",
-    "userId": "a73c1d19-f32d-4aff-b470-cea4e792406a"
+    "userId": "a73c1d19-f32d-4aff-b470-cea4e792406a",
+    "username": "TestUser2"
   }
 ]

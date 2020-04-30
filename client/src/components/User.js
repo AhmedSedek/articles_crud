@@ -52,7 +52,7 @@ class User extends React.Component {
 
   handleFormSubmit = (newArticle) => {
     this.client
-      .createArticle({ ...newArticle, userId: this.props.loggedInUserId })
+      .createArticle({ ...newArticle, userId: this.props.loggedInUser.id, username: this.props.loggedInUser.username })
       .then(this.fetchArticles);
     this.setState({ openAddForm: false });
   };

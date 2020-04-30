@@ -47,6 +47,7 @@ app.post("/api/articles", (req, res) => {
       timeUpdated: Date.now(),
       content: req.body.content,
       userId: req.body.userId,
+      username: req.body.username,
     };
     articles.push(newArticle);
     fs.writeFile(ARTICLES_FILE, JSON.stringify(articles, null, 2), () => {

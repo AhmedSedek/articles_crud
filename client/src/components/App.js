@@ -103,7 +103,7 @@ const ReduxArticle = connect(
 
 function mapStateToUserProps(state) {
   return {
-    loggedInUserId: state.login.loggedInUser.id,
+    loggedInUserId: state.login.loggedInUser.id
   };
 }
 
