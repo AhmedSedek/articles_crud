@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
+import Client from "Client";
+import ArticleSummaryList from "./ArticleSummaryList";
 
-import ArticleSummary from "./ArticleSummary";
-import Client from "../Client";
-
-class ArticlesContainer extends Component {
+class AllArticlesContainer extends React.Component {
   state = {
     fetched: false,
     articles: [],
@@ -20,6 +19,7 @@ class ArticlesContainer extends Component {
   }
 
   getArticles = () => {
+    console.log(this.props);
     this.client.getArticles().then((articles) =>
       this.setState({
         fetched: true,
@@ -27,20 +27,14 @@ class ArticlesContainer extends Component {
       })
     );
   };
-
   render() {
     if (!this.state.fetched) {
       return <div className='ui active centered inline loader' />;
     } else {
       return (
-        <div className='ui main text container unstackable items'>
-          {this.state.articles.map((article, idx) => (
-            <ArticleSummary article={article} key={idx} showUser={true}/>
-          ))}
-        </div>
+        <ArticleSummaryList articles={this.state.articles} showUser={true} />
       );
     }
   }
 }
-
-export default ArticlesContainer;
+export default AllArticlesContainer;

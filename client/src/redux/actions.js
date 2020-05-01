@@ -1,4 +1,4 @@
-import Client from "../Client";
+import Client from "Client";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 function loginRequest(user) {

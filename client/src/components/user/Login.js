@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Field from "./Field";
+import Field from "components/app/Field";
 import { Redirect } from "react-router-dom";
 
 class Login extends React.Component {

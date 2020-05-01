@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import "./index.css";
-import WrappedApp from "./components/App";
+import "index.css";
+import WrappedApp from "components/app/App";
 
-import "./semantic-dist/semantic.css";
+import "semantic-dist/semantic.css";
 
 ReactDOM.render(
   <Router>

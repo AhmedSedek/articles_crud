@@ -1,11 +1,11 @@
 import React from "react";
 import * as moment from "moment";
-import Client from "../Client";
+import Client from "Client";
 
 import { Link, Redirect } from "react-router-dom";
-import ArticleForm from "./ArticleForm";
+import ArticleForm from "components/article/ArticleForm";
 
-class Article extends React.Component {
+class DetailedArticle extends React.Component {
   state = {
     article: {},
     showEditForm: false,
@@ -117,4 +117,4 @@ class Article extends React.Component {
     }
   }
 }
-export default Article;
+export default DetailedArticle;

@@ -1,8 +1,8 @@
 import React from "react";
-import Client from "../Client";
+import Client from "Client";
 
-import ArticleSummary from "./ArticleSummary";
-import ArticleForm from "./ArticleForm";
+import ArticleSummary from "components/article/ArticleSummary";
+import ArticleForm from "components/article/ArticleForm";
 
 class User extends React.Component {
   state = {

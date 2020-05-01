@@ -1,15 +1,15 @@
 import React from "react";
-
 import { Route, Redirect, Switch } from "react-router-dom";
 import { Provider, connect } from "react-redux";
 
-import ArticlesContainer from "./ArticlesContainer";
-import User from "./User";
-import Login from "./Login";
-import Logout from "./Logout";
-import Signup from "./Signup";
-import Article from "./Article";
-import store from "../redux/store";
+import User from "components/user/User";
+import Login from "components/user/Login";
+import Logout from "components/user/Logout";
+import Signup from "components/user/Signup";
+import DetailedArticle from "components/article/DetailedArticle";
+import TopBar from "components/app/TopBar";
+import store from "redux/store";
+
 import {
   attemptLogin,
   attemptSignup,
@@ -17,8 +17,9 @@ import {
   fetchArticle,
   logoutRequest,
   updateArticle,
-} from "../redux/actions";
-import TopBar from "./TopBar";
+} from "redux/actions";
+import Client from "Client";
+import AllArticlesContainer from "components/article/AllArticlesContainer";
 
 export const NoMatch = ({ location }) => (
   <div className='ui inverted red raised very padded text container segment'>
@@ -99,17 +100,23 @@ function mapDispatchToArticleProps(dispatch) {
 const ReduxArticle = connect(
   mapStateToArticleProps,
   mapDispatchToArticleProps
-)(Article);
+)(DetailedArticle);
 
 function mapStateToUserProps(state) {
   return {
-    loggedInUserId: state.login.loggedInUser.id
+    loggedInUserId: state.login.loggedInUser.id,
   };
 }
 
 const ReduxUser = connect(mapStateToUserProps, (dispatch) => ({}))(User);
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.client = new Client();
+  }
+
   render() {
     return (
       <div>
@@ -117,7 +124,7 @@ class App extends React.Component {
         {/* <ReduxTopBar /> */}
         <Switch>
           <Route path='/articles/:articleId' component={ReduxArticle} />
-          <Route path='/articles' component={ArticlesContainer} />
+          <Route path='/articles' component={AllArticlesContainer} />
           <Route path='/users/:userId' component={ReduxUser} />
           <Route path='/login' component={ReduxLogin} />
           <Route path='/logout' component={ReduxLogout} />

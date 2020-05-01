@@ -15,7 +15,7 @@ import {
   UPDATE_ARTICLE_REQUEST,
   UPDATE_ARTICLE_REQUEST_FAILURE,
   UPDATE_ARTICLE_REQUEST_SUCCESS,
-} from "./actions";
+} from "redux/actions";
 
 export function login(
   state = { loginStatus: "", loggedInUser: {}, error: "" },
