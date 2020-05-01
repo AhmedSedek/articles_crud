@@ -74,7 +74,7 @@ class User extends React.Component {
         </div>
         <div className='eight wide column'>
           <div className='ui main text container unstackable items'>
-            {this.props.loggedInUserId === this.state.id ? (
+            {this.props.loggedInUser.id === this.state.id ? (
               <button
                 className='ui basic button blue'
                 onClick={this.openAddForm}

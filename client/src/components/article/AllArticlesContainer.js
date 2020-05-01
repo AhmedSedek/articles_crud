@@ -19,7 +19,6 @@ class AllArticlesContainer extends React.Component {
   }
 
   getArticles = () => {
-    console.log(this.props);
     this.client.getArticles().then((articles) =>
       this.setState({
         fetched: true,

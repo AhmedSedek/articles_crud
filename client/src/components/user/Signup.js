@@ -54,6 +54,7 @@ class Signup extends React.Component {
   };
 
   render() {
+    if (this.props.loggedIn) return <Redirect to='/' />;
     if (this.props.signupStatus === "SUCCEEDED") {
       return <Redirect to='/login' />;
     }
@@ -82,7 +83,7 @@ class Signup extends React.Component {
             onChange={this.onInputChange}
             validate={(val) => (isEmail(val) ? false : "Invalid Email")}
           />
-          
+
           <br />
 
           <Field

@@ -1,8 +1,9 @@
 import Client from "Client";
+import LocalStorage from "LocalStorage";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
-function loginRequest(user) {
-  return { type: LOGIN_REQUEST, user };
+function loginRequest() {
+  return { type: LOGIN_REQUEST };
 }
 
 export const LOGIN_REQUEST_FAILURE = "LOGIN_REQUEST_FAILURE";
@@ -11,13 +12,8 @@ function loginFailure(error) {
 }
 
 export const LOGIN_REQUEST_SUCCESS = "LOGIN_REQUEST_SUCCESS";
-function loginSuccess(user) {
-  return { type: LOGIN_REQUEST_SUCCESS, user };
-}
-
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export function logoutRequest() {
-  return { type: LOGOUT_REQUEST };
+function loginSuccess() {
+  return { type: LOGIN_REQUEST_SUCCESS };
 }
 
 export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
@@ -76,18 +72,21 @@ function deleteArticleSuccess() {
 
 export function attemptLogin(user) {
   return function (dispatch) {
-    dispatch(loginRequest);
+    dispatch(loginRequest());
     const client = new Client();
     client
       .verifyUser(user)
-      .then((res) => dispatch(loginSuccess(res)))
+      .then((res) => {
+        LocalStorage.setLoggedInUser(res);
+        dispatch(loginSuccess());
+      })
       .catch((err) => dispatch(loginFailure(err)));
   };
 }
 
 export function attemptSignup(user) {
   return function (dispatch) {
-    dispatch(signupRequest);
+    dispatch(signupRequest());
     const client = new Client();
     client
       .createUser(user)

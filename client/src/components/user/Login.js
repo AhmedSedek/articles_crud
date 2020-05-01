@@ -52,10 +52,10 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.props.loginStatus === "SUCCEEDED") {
+    if (this.props.loggedIn) {
       return <Redirect to='/' />;
     }
-    let status = this.props.loginStatus || "READY";
+    let status = this.props.loginStatus || "SUCCEEDED";
 
     return (
       <div>
@@ -94,7 +94,7 @@ class Login extends React.Component {
                   disabled={this.validate()}
                 />
               ),
-              READY: (
+              SUCCEEDED: (
                 <input
                   value='Submit'
                   type='submit'

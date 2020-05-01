@@ -15,20 +15,11 @@ import {
   attemptSignup,
   deleteArticle,
   fetchArticle,
-  logoutRequest,
   updateArticle,
 } from "redux/actions";
 import Client from "Client";
 import AllArticlesContainer from "components/article/AllArticlesContainer";
-
-export const NoMatch = ({ location }) => (
-  <div className='ui inverted red raised very padded text container segment'>
-    <strong>Error!</strong> No route found matching:
-    <div className='ui inverted black segment'>
-      <code>{location.pathname}</code>
-    </div>
-  </div>
-);
+import LocalStorage from "LocalStorage";
 
 function mapStateToLoginProps(state) {
   return {
@@ -47,22 +38,6 @@ const ReduxLogin = connect(
   mapStateToLoginProps,
   mapDispatchToLoginProps
 )(Login);
-
-function mapDispatchToLogoutProps(dispatch) {
-  return {
-    onLogout: () => dispatch(logoutRequest()),
-  };
-}
-
-const ReduxLogout = connect((state) => ({}), mapDispatchToLogoutProps)(Logout);
-
-function mapStateToTopBarProps(state) {
-  return {
-    loggedIn: Object.keys(state.login.loggedInUser).length !== 0,
-  };
-}
-
-const ReduxTopBar = connect(mapStateToTopBarProps, (dispatch) => ({}))(TopBar);
 
 function mapStateToSignupProps(state) {
   return {
@@ -85,7 +60,6 @@ const ReduxSignup = connect(
 function mapStateToArticleProps(state) {
   return {
     article: state.article,
-    loggedInUserId: state.login.loggedInUser.id,
   };
 }
 
@@ -102,33 +76,72 @@ const ReduxArticle = connect(
   mapDispatchToArticleProps
 )(DetailedArticle);
 
-function mapStateToUserProps(state) {
-  return {
-    loggedInUserId: state.login.loggedInUser.id,
-  };
-}
-
-const ReduxUser = connect(mapStateToUserProps, (dispatch) => ({}))(User);
-
 class App extends React.Component {
+  state = {
+    loggedInUser: {},
+  };
+
   constructor(props) {
     super(props);
-
     this.client = new Client();
+    LocalStorage.addSubscriber(this.localStorageUpdated);
   }
+
+  componentDidMount() {
+    this.localStorageUpdated();
+  }
+
+  localStorageUpdated = () => {
+    const loggedInUser = LocalStorage.getLoggedInUser();
+    this.setState({ loggedInUser: loggedInUser ? loggedInUser : {} });
+  };
+
+  isLoggedIn = () => {
+    return Object.keys(this.state.loggedInUser).length !== 0;
+  };
 
   render() {
     return (
       <div>
-        <Route path='/' component={ReduxTopBar} />
-        {/* <ReduxTopBar /> */}
+        <Route
+          path='/'
+          render={(props) => <TopBar {...props} loggedIn={this.isLoggedIn()} />}
+        />
         <Switch>
-          <Route path='/articles/:articleId' component={ReduxArticle} />
+          <Route
+            path='/articles/:articleId'
+            render={(props) => (
+              <ReduxArticle
+                {...props}
+                loggedInUserId={this.state.loggedInUser.id}
+              />
+            )}
+          />
           <Route path='/articles' component={AllArticlesContainer} />
-          <Route path='/users/:userId' component={ReduxUser} />
-          <Route path='/login' component={ReduxLogin} />
-          <Route path='/logout' component={ReduxLogout} />
-          <Route path='/signup' component={ReduxSignup} />
+          <Route
+            path='/users/:userId'
+            render={(props) => (
+              <User {...props} loggedInUser={this.state.loggedInUser} />
+            )}
+          />
+          <Route
+            path='/login'
+            render={(props) => (
+              <ReduxLogin {...props} loggedIn={this.isLoggedIn()} />
+            )}
+          />
+          <Route
+            path='/logout'
+            render={() => (
+              <Logout onLogout={() => LocalStorage.unsetLoggedInUser()} />
+            )}
+          />
+          <Route
+            path='/signup'
+            render={(props) => (
+              <ReduxSignup {...props} loggedIn={this.isLoggedIn()} />
+            )}
+          />
           <Route path='/' render={() => <Redirect to='/articles' />} />
           <Route component={NoMatch} />
         </Switch>
@@ -146,5 +159,14 @@ class WrappedApp extends React.Component {
     );
   }
 }
+
+const NoMatch = ({ location }) => (
+  <div className='ui inverted red raised very padded text container segment'>
+    <strong>Error!</strong> No route found matching:
+    <div className='ui inverted black segment'>
+      <code>{location.pathname}</code>
+    </div>
+  </div>
+);
 
 export default WrappedApp;
