@@ -8,6 +8,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAILURE,
   LOGIN_REQUEST_SUCCESS,
+  LOGOUT_REQUEST,
   SIGNUP_REQUEST,
   SIGNUP_REQUEST_FAILURE,
   SIGNUP_REQUEST_SUCCESS,
@@ -16,10 +17,7 @@ import {
   UPDATE_ARTICLE_REQUEST_SUCCESS,
 } from "redux/actions";
 
-export function login(
-  state = { loginStatus: "", error: "" },
-  action
-) {
+export function login(state = { loginStatus: "", error: "" }, action) {
   switch (action.type) {
     case LOGIN_REQUEST: {
       return {
@@ -37,6 +35,12 @@ export function login(
       return {
         loginStatus: "FAILED",
         error: action.error,
+      };
+    }
+    case LOGOUT_REQUEST: {
+      return {
+        loginStatus: "",
+        error: "",
       };
     }
     default:

@@ -1,6 +1,7 @@
 import React from "react";
 import Client from "Client";
 import ArticleSummaryList from "./ArticleSummaryList";
+import Loader from "components/app/Loader";
 
 class AllArticlesContainer extends React.Component {
   state = {
@@ -10,7 +11,6 @@ class AllArticlesContainer extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.client = new Client();
   }
 
@@ -26,9 +26,10 @@ class AllArticlesContainer extends React.Component {
       })
     );
   };
+
   render() {
     if (!this.state.fetched) {
-      return <div className='ui active centered inline loader' />;
+      return <Loader />;
     } else {
       return (
         <ArticleSummaryList articles={this.state.articles} showUser={true} />

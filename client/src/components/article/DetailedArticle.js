@@ -1,21 +1,17 @@
 import React from "react";
 import * as moment from "moment";
-import Client from "Client";
 
 import { Link, Redirect } from "react-router-dom";
 import ArticleForm from "components/article/ArticleForm";
+import { updateArticle, fetchArticle, deleteArticle } from "redux/actions";
+import { connect } from "react-redux";
+import Loader from "components/app/Loader";
 
 class DetailedArticle extends React.Component {
   state = {
     article: {},
     showEditForm: false,
-    shouldRedirect: false,
   };
-
-  constructor(props) {
-    super(props);
-    this.client = new Client();
-  }
 
   componentDidMount() {
     this.props.fetchArticle(this.props.match.params.articleId);
@@ -61,7 +57,7 @@ class DetailedArticle extends React.Component {
       this.state.article.articleStatus !== "SUCCEEDED" &&
       this.state.article.articleStatus !== "FAILED"
     ) {
-      return <div className='ui active centered inline loader' />;
+      return <Loader />;
     }
     if (this.state.showEditForm) {
       return (
@@ -117,4 +113,24 @@ class DetailedArticle extends React.Component {
     }
   }
 }
-export default DetailedArticle;
+
+function mapStateToArticleProps(state) {
+  return {
+    article: state.article,
+  };
+}
+
+function mapDispatchToArticleProps(dispatch) {
+  return {
+    fetchArticle: (articleId) => dispatch(fetchArticle(articleId)),
+    updateArticle: (article) => dispatch(updateArticle(article)),
+    deleteArticle: (articleId) => dispatch(deleteArticle(articleId)),
+  };
+}
+
+const ReduxArticle = connect(
+  mapStateToArticleProps,
+  mapDispatchToArticleProps
+)(DetailedArticle);
+
+export default ReduxArticle;

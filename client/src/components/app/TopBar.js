@@ -6,7 +6,6 @@ class TopBar extends React.Component {
   render() {
     return (
       <div className='ui huge top attached fluid secondary menu'>
-        <div className='item' />
         <div className='item'>
           <Link
             className='ui green header'
@@ -18,18 +17,36 @@ class TopBar extends React.Component {
         </div>
         <div className='right menu'>
           {this.props.loggedIn ? (
-            <Link className='ui item' to='/logout'>
+            <Link
+              className='ui item'
+              to={{
+                pathname: "/logout",
+                state: { from: this.props.location.pathname },
+              }}
+            >
               Logout
             </Link>
           ) : null}
           {!this.props.loggedIn && this.props.location.pathname !== "/login" ? (
-            <Link className='ui item' to='/login'>
+            <Link
+              className='ui item'
+              to={{
+                pathname: "/login",
+                state: { from: this.props.location.pathname },
+              }}
+            >
               Login
             </Link>
           ) : null}
           {!this.props.loggedIn &&
           this.props.location.pathname !== "/signup" ? (
-            <Link className='ui item' to='/signup'>
+            <Link
+              className='ui item'
+              to={{
+                pathname: "/signup",
+                state: { from: this.props.location.pathname },
+              }}
+            >
               Signup
             </Link>
           ) : null}

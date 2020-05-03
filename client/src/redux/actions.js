@@ -16,6 +16,11 @@ function loginSuccess() {
   return { type: LOGIN_REQUEST_SUCCESS };
 }
 
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+function logoutRequest() {
+  return { type: LOGOUT_REQUEST };
+}
+
 export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
 function signupRequest(user) {
   return { type: SIGNUP_REQUEST, user };
@@ -82,6 +87,13 @@ export function attemptLogin(user) {
       })
       .catch((err) => dispatch(loginFailure(err)));
   };
+}
+
+export function attempLogout() {
+  return function(dispatch) {
+    dispatch(logoutRequest());
+    LocalStorage.unsetLoggedInUser()
+  }
 }
 
 export function attemptSignup(user) {

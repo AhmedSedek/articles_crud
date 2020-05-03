@@ -3,6 +3,7 @@ import Client from "Client";
 
 import ArticleSummary from "components/article/ArticleSummary";
 import ArticleForm from "components/article/ArticleForm";
+import Loader from "components/app/Loader";
 
 class User extends React.Component {
   state = {
@@ -12,11 +13,11 @@ class User extends React.Component {
     articles: [],
     registeredSince: null,
     openAddForm: false,
+    fetched: false,
   };
 
   constructor(props) {
     super(props);
-
     this.client = new Client();
   }
 
@@ -28,6 +29,7 @@ class User extends React.Component {
         registeredSince: user.registeredSince,
         username: user.username,
         email: user.email,
+        fetched: true,
       })
     );
     this.fetchArticles();
@@ -52,7 +54,11 @@ class User extends React.Component {
 
   handleFormSubmit = (newArticle) => {
     this.client
-      .createArticle({ ...newArticle, userId: this.props.loggedInUser.id, username: this.props.loggedInUser.username })
+      .createArticle({
+        ...newArticle,
+        userId: this.props.loggedInUser.id,
+        username: this.props.loggedInUser.username,
+      })
       .then(this.fetchArticles);
     this.setState({ openAddForm: false });
   };
@@ -62,6 +68,7 @@ class User extends React.Component {
   };
 
   render() {
+    if (!this.state.fetched) return <Loader />;
     return (
       <div className='ui main two column gridcentered container '>
         <div className='four wide column'>

@@ -1,5 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { attempLogout } from "redux/actions";
+import { connect } from "react-redux";
 
 class Logout extends React.Component {
   componentDidMount() {
@@ -7,8 +9,17 @@ class Logout extends React.Component {
   }
 
   render() {
-    return <Redirect to='/' />;
+    const redirectPath = this.props.location.state.from || "/";
+    return <Redirect to={redirectPath} />;
   }
 }
 
-export default Logout;
+function mapDispatchToLogoutProps(dispatch) {
+  return {
+    onLogout: () => dispatch(attempLogout()),
+  };
+}
+
+const ReduxLogout = connect((state) => ({}), mapDispatchToLogoutProps)(Logout);
+
+export default ReduxLogout;

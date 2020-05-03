@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 import Field from "components/app/Field";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { attemptLogin } from "redux/actions";
 
 class Login extends React.Component {
   static propTypes = {
@@ -52,10 +54,11 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.props.loggedIn) {
-      return <Redirect to='/' />;
+    if (this.props.loginStatus === "SUCCEEDED") {
+      const redirectPath = this.props.location.state.from || "/";
+      return <Redirect to={redirectPath} />;
     }
-    let status = this.props.loginStatus || "SUCCEEDED";
+    let status = this.props.loginStatus || "READY";
 
     return (
       <div>
@@ -94,7 +97,7 @@ class Login extends React.Component {
                   disabled={this.validate()}
                 />
               ),
-              SUCCEEDED: (
+              READY: (
                 <input
                   value='Submit'
                   type='submit'
@@ -109,4 +112,22 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+function mapStateToLoginProps(state) {
+  return {
+    loginStatus: state.login.loginStatus,
+    error: state.login.error,
+  };
+}
+
+function mapDispatchToLoginProps(dispatch) {
+  return {
+    onSubmit: (user) => dispatch(attemptLogin(user)),
+  };
+}
+
+const ReduxLogin = connect(
+  mapStateToLoginProps,
+  mapDispatchToLoginProps
+)(Login);
+
+export default ReduxLogin;

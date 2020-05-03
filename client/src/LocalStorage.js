@@ -1,25 +1,24 @@
 const LOGGED_IN_USER_KEY = "ARTICLES_CRUD-LOGGED_IN_USER";
 
 class LocalStorage {
-  constructor() {}
-  subscribers = [];
+  callbacks = [];
 
-  addSubscriber(callback) {
-    this.subscribers.push(callback);
+  subscribe(callback) {
+    this.callbacks.push(callback);
   }
 
   setLoggedInUser(user) {
     localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
-    this.subscribers.forEach((subscriber) => subscriber());
+    this.callbacks.forEach((callback) => callback());
   }
 
   unsetLoggedInUser() {
     localStorage.removeItem(LOGGED_IN_USER_KEY);
-    this.subscribers.forEach((subscriber) => subscriber());
+    this.callbacks.forEach((callback) => callback());
   }
 
   getLoggedInUser() {
-    return JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY));
+    return JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY)) || {};
   }
 }
 

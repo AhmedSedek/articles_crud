@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Field from "components/app/Field";
 import isEmail from "validator/lib/isEmail";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { attemptSignup } from "redux/actions";
 
 class Signup extends React.Component {
   static propTypes = {
@@ -56,7 +58,8 @@ class Signup extends React.Component {
   render() {
     if (this.props.loggedIn) return <Redirect to='/' />;
     if (this.props.signupStatus === "SUCCEEDED") {
-      return <Redirect to='/login' />;
+      const redirectPath = this.props.location.state.from || "/login";
+      return <Redirect to={redirectPath} />;
     }
     let status = this.props.signupStatus || "READY";
 
@@ -122,4 +125,22 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup;
+function mapStateToSignupProps(state) {
+  return {
+    signupStatus: state.signup.signupStatus,
+    error: state.signup.error,
+  };
+}
+
+function mapDispatchToSignupProps(dispatch) {
+  return {
+    onSubmit: (user) => dispatch(attemptSignup(user)),
+  };
+}
+
+const ReduxSignup = connect(
+  mapStateToSignupProps,
+  mapDispatchToSignupProps
+)(Signup);
+
+export default ReduxSignup;
