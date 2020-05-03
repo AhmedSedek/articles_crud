@@ -20,12 +20,14 @@ class Signup extends React.Component {
       password: "",
     },
     fieldErrors: {},
+    attempted: false,
   };
 
   onFormSubmit = (evt) => {
     const user = this.state.fields;
 
     evt.preventDefault();
+    this.setState({ attempted: true });
 
     if (this.validate()) return;
 
@@ -61,12 +63,12 @@ class Signup extends React.Component {
       const redirectPath = this.props.location.state.from || "/login";
       return <Redirect to={redirectPath} />;
     }
-    let status = this.props.signupStatus || "READY";
+    let status = this.state.attempted ? this.props.signupStatus : "READY";
 
     return (
       <div>
         <h1>Signup Sheet</h1>
-        <label>{this.props.error || " "}</label>
+        <label>{this.state.attempted ? this.props.error : ""}</label>
         <br />
         <form onSubmit={this.onFormSubmit}>
           <Field

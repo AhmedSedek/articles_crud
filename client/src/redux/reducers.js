@@ -9,6 +9,7 @@ import {
   LOGIN_REQUEST_FAILURE,
   LOGIN_REQUEST_SUCCESS,
   LOGOUT_REQUEST,
+  SIGNUP_CLEAR,
   SIGNUP_REQUEST,
   SIGNUP_REQUEST_FAILURE,
   SIGNUP_REQUEST_SUCCESS,
@@ -66,6 +67,12 @@ export function signup(state = { signupStatus: "", error: "" }, action) {
       return {
         signupStatus: "FAILED",
         error: action.error,
+      };
+    }
+    case SIGNUP_CLEAR: {
+      return {
+        signupStatus: "",
+        error: "",
       };
     }
     default:

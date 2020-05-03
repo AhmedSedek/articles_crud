@@ -21,6 +21,11 @@ function logoutRequest() {
   return { type: LOGOUT_REQUEST };
 }
 
+export const SIGNUP_CLEAR = "SIGNUP_CLEAR";
+function signupClear() {
+  return { type: SIGNUP_CLEAR };
+}
+
 export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
 function signupRequest(user) {
   return { type: SIGNUP_REQUEST, user };
@@ -90,10 +95,10 @@ export function attemptLogin(user) {
 }
 
 export function attempLogout() {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(logoutRequest());
-    LocalStorage.unsetLoggedInUser()
-  }
+    LocalStorage.unsetLoggedInUser();
+  };
 }
 
 export function attemptSignup(user) {
@@ -103,6 +108,7 @@ export function attemptSignup(user) {
     client
       .createUser(user)
       .then((res) => dispatch(signupSuccess(res)))
+      .then(() => dispatch(signupClear()))
       .catch((err) => dispatch(signupFailure(err)));
   };
 }
