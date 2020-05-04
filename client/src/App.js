@@ -33,7 +33,7 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <TopBar
-          loggedIn={this.isLoggedIn()}
+          isLoggedIn={this.isLoggedIn}
           loggedInUser={this.state.loggedInUser}
         />
         <AppRouter

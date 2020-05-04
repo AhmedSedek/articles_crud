@@ -24,7 +24,7 @@ class User extends React.Component {
 
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    this.usersClient.getUserById({ userId }, (user) =>
+    this.usersClient.getUserById({ userId }).then((user) =>
       this.setState({
         id: user.id,
         registeredSince: user.registeredSince,
@@ -38,9 +38,9 @@ class User extends React.Component {
 
   fetchArticles = () => {
     const userId = this.props.match.params.userId;
-    this.articlesClient.getUserArticles({ userId }, (res) => {
-      this.setState({ articles: res });
-    });
+    this.articlesClient
+      .getUserArticles({ userId })
+      .then((res) => this.setState({ articles: res }));
   };
 
   renderArticles = () => {

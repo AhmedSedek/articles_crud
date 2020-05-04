@@ -1,3 +1,5 @@
+import axios from "axios";
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -9,112 +11,105 @@ function checkStatus(response) {
   }
 }
 
-function parseJSON(response) {
-  return response.json();
+function parseData(response) {
+  return response.data;
 }
 
 export class ArticlesClient {
   getArticle(data) {
-    return fetch("/api/articles", {
-      headers: {
-        Accept: "application/json",
-      },
-    })
+    return axios
+      .get("http://localhost:3001/api/articles", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON)
+      .then(parseData)
       .then((res) => res.find((article) => article.id === data.articleId));
   }
-  getArticles(success) {
-    return fetch("/api/articles", {
-      headers: {
-        Accept: "application/json",
-      },
-    })
+
+  getArticles() {
+    return axios
+      .get("/api/articles", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON)
-      .then(success);
+      .then(parseData);
   }
 
-  getUserArticles(data, success) {
-    return fetch("/api/articles", {
-      headers: {
-        Accept: "application/json",
-      },
-    })
+  getUserArticles(data) {
+    return axios
+      .get("/api/articles", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON)
-      .then((res) => res.filter((article) => article.userId === data.userId))
-      .then(success);
+      .then(parseData)
+      .then((res) => res.filter((article) => article.userId === data.userId));
   }
 
   createArticle(data) {
-    return fetch("/api/articles", {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+    return axios
+      .post("/api/articles", data, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON);
+      .then(parseData);
   }
 
   updateArticle(data) {
-    return fetch("/api/articles", {
-      method: "put",
-      body: JSON.stringify(data),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }).then(checkStatus);
+    return axios
+      .put("/api/articles", data, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then(checkStatus)
+      .then(parseData);
   }
 
   deleteArticle(data) {
-    return fetch("/api/articles", {
-      method: "delete",
-      body: JSON.stringify(data),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }).then(checkStatus);
+    return axios
+      .delete("/api/articles", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data,
+      })
+      .then(checkStatus);
   }
 }
 
 export class UsersClient {
-  getUserById(data, success) {
-    return fetch("/api/users", {
-      headers: {
-        Accept: "application/json",
-      },
-    })
+  getUserById(data) {
+    return axios
+      .get("/api/users", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON)
-      .then((res) => res.find((user) => user.id === data.userId))
-      .then(success);
-  }
-
-  getUsers(success) {
-    return fetch("/api/users", {
-      headers: {
-        Accept: "application/json",
-      },
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(success);
+      .then(parseData)
+      .then((res) => res.find((user) => user.id === data.userId));
   }
 
   verifyUser(data) {
-    return fetch("/api/users", {
-      headers: {
-        Accept: "application/json",
-      },
-    })
+    return axios
+      .get("/api/users", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON)
+      .then(parseData)
       .then((res) => {
         const user = res.find(
           (user) =>
@@ -137,15 +132,14 @@ export class UsersClient {
   }
 
   createUser(data) {
-    return fetch("/api/users", {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+    return axios
+      .post("/api/users", data, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
       .then(checkStatus)
-      .then(parseJSON);
+      .then(parseData);
   }
 }

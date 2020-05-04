@@ -28,7 +28,7 @@ class TopBar extends React.Component {
               {this.props.loggedInUser.username}
             </Link>
           ) : null}
-          {this.props.loggedIn ? (
+          {this.props.isLoggedIn() ? (
             <Link
               className='ui item'
               to={{
@@ -39,7 +39,7 @@ class TopBar extends React.Component {
               Logout
             </Link>
           ) : null}
-          {!this.props.loggedIn && this.props.location.pathname !== "/login" ? (
+          {!this.props.isLoggedIn() && this.props.location.pathname !== "/login" ? (
             <Link
               className='ui item'
               to={{
@@ -50,7 +50,7 @@ class TopBar extends React.Component {
               Login
             </Link>
           ) : null}
-          {!this.props.loggedIn &&
+          {!this.props.isLoggedIn() &&
           this.props.location.pathname !== "/signup" ? (
             <Link
               className='ui item'
