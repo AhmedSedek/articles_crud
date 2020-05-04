@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Field from "components/app/Field";
+import Field from "components/ui/Field";
 import isEmail from "validator/lib/isEmail";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";

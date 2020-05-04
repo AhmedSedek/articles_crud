@@ -1,7 +1,7 @@
 import React from "react";
-import Client from "Client";
+import { ArticlesClient } from "Client";
 import ArticleSummaryList from "./ArticleSummaryList";
-import Loader from "components/app/Loader";
+import Loader from "components/ui/Loader";
 
 class AllArticlesContainer extends React.Component {
   state = {
@@ -11,7 +11,7 @@ class AllArticlesContainer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.client = new Client();
+    this.client = new ArticlesClient();
   }
 
   componentDidMount() {

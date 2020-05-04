@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
@@ -114,5 +113,5 @@ app.delete("/api/articles", (req, res) => {
 });
 
 app.listen(app.get("port"), () => {
-  console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+  console.log(`Find the server at: http://localhost:${app.get("port")}/`);
 });

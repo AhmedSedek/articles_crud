@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Field from "components/app/Field";
+import Field from "components/ui/Field";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { attemptLogin } from "redux/actions";
@@ -54,8 +54,10 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.props.loginStatus === "SUCCEEDED") {
-      const redirectPath = this.props.location.state.from || "/";
+    if (this.props.loggedIn || this.props.loginStatus === "SUCCEEDED") {
+      const redirectPath = this.props.location.state
+        ? this.props.location.state.from || "/"
+        : "/";
       return <Redirect to={redirectPath} />;
     }
     let status = this.props.loginStatus || "READY";

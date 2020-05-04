@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import ArticleForm from "components/article/ArticleForm";
 import { updateArticle, fetchArticle, deleteArticle } from "redux/actions";
 import { connect } from "react-redux";
-import Loader from "components/app/Loader";
+import Loader from "components/ui/Loader";
 
 class DetailedArticle extends React.Component {
   state = {

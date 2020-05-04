@@ -1,8 +1,12 @@
 import React from "react";
+import { withRouter } from "react-router";
 
 import { Link } from "react-router-dom";
 
 class TopBar extends React.Component {
+  state = {
+    pathname: "",
+  };
   render() {
     return (
       <div className='ui huge top attached fluid secondary menu'>
@@ -16,6 +20,14 @@ class TopBar extends React.Component {
           </Link>
         </div>
         <div className='right menu'>
+          {this.props.loggedInUser ? (
+            <Link
+              className='ui item'
+              to={`/users/${this.props.loggedInUser.id}`}
+            >
+              {this.props.loggedInUser.username}
+            </Link>
+          ) : null}
           {this.props.loggedIn ? (
             <Link
               className='ui item'
@@ -56,4 +68,4 @@ class TopBar extends React.Component {
   }
 }
 
-export default TopBar;
+export default withRouter(TopBar);

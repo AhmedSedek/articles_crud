@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import "index.css";
-import WrappedApp from "components/app/App";
+import App from "App";
 
 import "semantic-dist/semantic.css";
 
 ReactDOM.render(
   <Router>
-    <WrappedApp />
+    <App />
   </Router>,
   document.getElementById("root")
 );

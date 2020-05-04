@@ -9,7 +9,9 @@ class Logout extends React.Component {
   }
 
   render() {
-    const redirectPath = this.props.location.state.from || "/";
+    const redirectPath = this.props.location.state
+      ? this.props.location.state.from || "/"
+      : "/";
     return <Redirect to={redirectPath} />;
   }
 }

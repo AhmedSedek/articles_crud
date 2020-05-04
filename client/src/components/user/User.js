@@ -1,9 +1,9 @@
 import React from "react";
-import Client from "Client";
+import { UsersClient, ArticlesClient } from "Client";
 
 import ArticleSummary from "components/article/ArticleSummary";
 import ArticleForm from "components/article/ArticleForm";
-import Loader from "components/app/Loader";
+import Loader from "components/ui/Loader";
 
 class User extends React.Component {
   state = {
@@ -18,12 +18,13 @@ class User extends React.Component {
 
   constructor(props) {
     super(props);
-    this.client = new Client();
+    this.usersClient = new UsersClient();
+    this.articlesClient = new ArticlesClient();
   }
 
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    this.client.getUserById({ userId }, (user) =>
+    this.usersClient.getUserById({ userId }, (user) =>
       this.setState({
         id: user.id,
         registeredSince: user.registeredSince,
@@ -37,7 +38,7 @@ class User extends React.Component {
 
   fetchArticles = () => {
     const userId = this.props.match.params.userId;
-    this.client.getUserArticles({ userId }, (res) => {
+    this.articlesClient.getUserArticles({ userId }, (res) => {
       this.setState({ articles: res });
     });
   };
@@ -53,7 +54,7 @@ class User extends React.Component {
   };
 
   handleFormSubmit = (newArticle) => {
-    this.client
+    this.articlesClient
       .createArticle({
         ...newArticle,
         userId: this.props.loggedInUser.id,

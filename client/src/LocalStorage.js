@@ -1,7 +1,16 @@
 const LOGGED_IN_USER_KEY = "ARTICLES_CRUD-LOGGED_IN_USER";
 
-class LocalStorage {
+export default class LocalStorage {
+  static instance = null;
   callbacks = [];
+
+  static getInstance() {
+    if (LocalStorage.instance == null) {
+      LocalStorage.instance = new LocalStorage();
+    }
+
+    return this.instance;
+  }
 
   subscribe(callback) {
     this.callbacks.push(callback);
@@ -21,5 +30,3 @@ class LocalStorage {
     return JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY)) || {};
   }
 }
-
-export default new LocalStorage();

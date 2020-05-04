@@ -1,4 +1,4 @@
-import Client from "Client";
+import { ArticlesClient, UsersClient } from "Client";
 import LocalStorage from "LocalStorage";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -83,11 +83,11 @@ function deleteArticleSuccess() {
 export function attemptLogin(user) {
   return function (dispatch) {
     dispatch(loginRequest());
-    const client = new Client();
+    const client = new UsersClient();
     client
       .verifyUser(user)
       .then((res) => {
-        LocalStorage.setLoggedInUser(res);
+        LocalStorage.getInstance().setLoggedInUser(res);
         dispatch(loginSuccess());
       })
       .catch((err) => dispatch(loginFailure(err)));
@@ -97,14 +97,14 @@ export function attemptLogin(user) {
 export function attempLogout() {
   return function (dispatch) {
     dispatch(logoutRequest());
-    LocalStorage.unsetLoggedInUser();
+    LocalStorage.getInstance().unsetLoggedInUser();
   };
 }
 
 export function attemptSignup(user) {
   return function (dispatch) {
     dispatch(signupRequest());
-    const client = new Client();
+    const client = new UsersClient();
     client
       .createUser(user)
       .then((res) => dispatch(signupSuccess(res)))
@@ -116,7 +116,7 @@ export function attemptSignup(user) {
 export function fetchArticle(articleId) {
   return function (dispatch) {
     dispatch(fetchArticleRequest(articleId));
-    const client = new Client();
+    const client = new ArticlesClient();
     client
       .getArticle({ articleId })
       .then((res) => dispatch(fetchArticleSuccess(res)))
@@ -127,7 +127,7 @@ export function fetchArticle(articleId) {
 export function updateArticle(article) {
   return function (dispatch) {
     dispatch(updateArticleRequest());
-    const client = new Client();
+    const client = new ArticlesClient();
     client
       .updateArticle(article)
       .then((res) => dispatch(updateArticleSuccess(article)))
@@ -138,7 +138,7 @@ export function updateArticle(article) {
 export function deleteArticle(articleId) {
   return function (dispatch) {
     dispatch(deleteArticleRequest());
-    const client = new Client();
+    const client = new ArticlesClient();
     client
       .deleteArticle({ id: articleId })
       .then((res) => dispatch(deleteArticleSuccess()))
