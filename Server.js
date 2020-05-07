@@ -20,6 +20,8 @@ app.use((req, res, next) => {
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Expires", "0");
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Accept");
   next();
 });
 
@@ -27,6 +29,14 @@ app.get("/api/articles", (req, res) => {
   fs.readFile(ARTICLES_FILE, (err, data) => {
     res.setHeader("Cache-Control", "no-cache");
     res.json(JSON.parse(data));
+  });
+});
+
+app.get("/api/articles/:articleId", (req, res) => {
+  fs.readFile(ARTICLES_FILE, (err, data) => {
+    res.setHeader("Cache-Control", "no-cache");
+    const articles = JSON.parse(data);
+    res.json(articles.find((article) => article.id === req.params.articleId));
   });
 });
 
@@ -81,11 +91,11 @@ app.post("/api/users", (req, res) => {
   });
 });
 
-app.put("/api/articles", (req, res) => {
+app.put("/api/articles/:articleId", (req, res) => {
   fs.readFile(ARTICLES_FILE, (err, data) => {
     const articles = JSON.parse(data);
     articles.forEach((article) => {
-      if (article.id === req.body.id) {
+      if (article.id === req.params.articleId) {
         article.title = req.body.title;
         article.content = req.body.content;
         article.timeUpdated = Date.now();
@@ -97,11 +107,11 @@ app.put("/api/articles", (req, res) => {
   });
 });
 
-app.delete("/api/articles", (req, res) => {
+app.delete("/api/articles/:articleId", (req, res) => {
   fs.readFile(ARTICLES_FILE, (err, data) => {
     let articles = JSON.parse(data);
     articles = articles.reduce((memo, article) => {
-      if (article.id === req.body.id) {
+      if (article.id === req.params.articleId) {
         return memo;
       } else {
         return memo.concat(article);

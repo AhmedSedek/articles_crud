@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001";
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -18,14 +19,13 @@ function parseData(response) {
 export class ArticlesClient {
   getArticle(data) {
     return axios
-      .get("http://localhost:3001/api/articles", {
+      .get(`/api/articles/${data.articleId}`, {
         headers: {
           Accept: "application/json",
         },
       })
       .then(checkStatus)
-      .then(parseData)
-      .then((res) => res.find((article) => article.id === data.articleId));
+      .then(parseData);
   }
 
   getArticles() {
@@ -65,7 +65,7 @@ export class ArticlesClient {
 
   updateArticle(data) {
     return axios
-      .put("/api/articles", data, {
+      .put(`/api/articles/${data.id}`, data, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export class ArticlesClient {
 
   deleteArticle(data) {
     return axios
-      .delete("/api/articles", {
+      .delete(`/api/articles/${data.id}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
