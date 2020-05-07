@@ -1,0 +1,23 @@
+[
+  {
+    "id": "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7",
+    "username": "TestUser1",
+    "registeredSince": 2121231235,
+    "password": "123456",
+    "email": "dummy@email.com"
+  },
+  {
+    "id": "a73c1d19-f32d-4aff-b470-cea4e792406a",
+    "username": "TestUser2",
+    "registeredSince": 2131351123,
+    "password": "123456",
+    "email": "dummy@email.com"
+  },
+  {
+    "username": "TestUser3",
+    "id": "feca629f-9b14-4d75-98a3-c801fb925cd5",
+    "registeredSince": 1588104388450,
+    "password": "123456",
+    "email": "dummy@email.com"
+  }
+]
